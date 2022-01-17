@@ -16,6 +16,7 @@ import {
   Typography
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useForm } from 'react-hook-form';
 
 const Register = () => {
   const [name, setName] = useState('')
@@ -41,7 +42,7 @@ const Register = () => {
         )
     }),
     onSubmit: () => {
-      router.push('/');
+      router.push('/login');
     }
   });
   
@@ -56,11 +57,12 @@ const Register = () => {
     })
 
     }
+    
   return (
     <>
       <Head>
         <title>
-          Register | Material Kit
+          Register 
         </title>
       </Head>
       <Box
@@ -111,7 +113,9 @@ const Register = () => {
               onChange={(e) => setName(e.target.value)}
               value={name}
               variant="outlined"
+            autoComplete='off'  
             />
+          
             <TextField
               error={Boolean(formik.touched.email && formik.errors.email)}
               fullWidth
@@ -124,6 +128,7 @@ const Register = () => {
               type="email"
               value={email}
               variant="outlined"
+              autoComplete="off" 
             />
             <TextField
               error={Boolean(formik.touched.PhoneNumber && formik.errors.PhoneNumber)}
@@ -136,6 +141,7 @@ const Register = () => {
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               variant="outlined"
+            
             />
             <TextField
               error={Boolean(formik.touched.password && formik.errors.password)}
@@ -149,6 +155,7 @@ const Register = () => {
               type="password"
               value={password}
               variant="outlined"
+              
             />
             <Box
               sx={{

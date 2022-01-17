@@ -23,7 +23,7 @@ const ListUserComponent = () => {
                  <thead>
                  <th>User Id</th>
                  <th>User Email</th>
-                 <th>User Password</th>
+                 <th>User Name</th>
                  </thead>
              <tbody>
                  {
@@ -32,7 +32,7 @@ const ListUserComponent = () => {
                          <tr key={user.id}>
                              <td>{user.id}</td>
                              <td>{user.email}</td>
-                             <td>{user.password}</td>
+                             <td>{user.name}</td>
                          </tr>
                      )
                  }

@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
@@ -7,6 +7,8 @@ import * as Yup from 'yup';
 import { Box, Button, Checkbox, Container, Grid, Link, TextField, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CheckboxLabels from './checkbox';
+import UserService from 'src/services/UserService';
+
 
 
 
@@ -21,7 +23,16 @@ const Login = () => {
       router.push('/');
     }
   });
+  const [users, setUsers] = useState([])
+  useEffect(() => {
+    UserService.getAllUsers().then((Response) =>{
+        setUsers(Response.data)
+        console.log(Response.data);
 
+    }).catch(error=>{
+        console.log(error);
+    })
+    }, [])
   return (
     <>
     
@@ -77,6 +88,7 @@ const Login = () => {
                 login with email address
               </Typography>
             </Box>
+          
             <TextField
               error={Boolean(formik.touched.email && formik.errors.email)}
               fullWidth
@@ -89,6 +101,7 @@ const Login = () => {
               type="email"
               value={formik.values.email}
               variant="outlined"
+              minLength={5}              
             />
             <TextField
               error={Boolean(formik.touched.password && formik.errors.password)}
