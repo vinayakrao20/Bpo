@@ -26,7 +26,8 @@ private UserRepository userRepository;
 	}
 	// build create employee Rest Api
 	@PostMapping
-	public User createUser(@RequestBody User user) {
+	public User createUser(@RequestBody User user) 
+	{
 		return userRepository.save(user);
 	}
 }

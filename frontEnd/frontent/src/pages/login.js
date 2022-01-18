@@ -19,10 +19,28 @@ const Login = () => {
       email: '',
       password: ''
     },
+    validationSchema: Yup.object({
+      email: Yup
+        .string()
+        .email(
+          'Must be a valid email')
+        .max(255)
+        .required(
+          'Email is required'),
+      password: Yup
+        .string()
+        .max(255)
+        .required(
+          'Password is required')
+    }),
     onSubmit: () => {
       router.push('/');
     }
   });
+  const [email, setEmail] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const [password, setPassword] = useState('')
+  const [passwordError, setPasswordError] = useState('')
   const [users, setUsers] = useState([])
   useEffect(() => {
     UserService.getAllUsers().then((Response) =>{
@@ -33,6 +51,43 @@ const Login = () => {
         console.log(error);
     })
     }, [])
+    users.map(
+      user =>
+      <tr key={user.id}>
+          <td>{user.id}</td>
+          <td>{user.email}</td>
+          <td>{user.name}</td>
+      </tr>
+    )
+  const handleEmailChange=(e)=>{
+    setEmailError('')
+    setEmail(e.target.value);
+  }
+  const handlePasswordChange =(e)=>{
+    setPasswordError('')
+    setPassword(e.target.value);
+  }
+  const handleSubmit=(e)=>{
+    e.preventDefault();
+    if(email===users.email)
+    {
+      if(password ===users.password)
+      {
+        router.push('/');
+      }
+      else
+      {
+        setPasswordError('Password is Incorrect')
+      }
+    }
+    else
+    {
+      setEmailError('Email Does Not Exist')
+    }
+    
+  }
+  
+  
   return (
     <>
     
@@ -60,7 +115,7 @@ const Login = () => {
               Dashboard
             </Button>
           </NextLink>
-          <form onSubmit={formik.handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <Box sx={{ my: 3 }}>
 
               <Typography
@@ -96,13 +151,14 @@ const Login = () => {
               label="Email Address"
               margin="normal"
               name="email"
+              onChange={handleEmailChange}
               onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
+              onInput={formik.handleChange}
               type="email"
-              value={formik.values.email}
-              variant="outlined"
-              minLength={5}              
+              value={email}
+              variant="outlined"            
             />
+            {emailError&&<div className='error-masg'>{emailError}</div>}
             <TextField
               error={Boolean(formik.touched.password && formik.errors.password)}
               fullWidth
@@ -111,11 +167,13 @@ const Login = () => {
               margin="normal"
               name="password"
               onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
+              onInput={formik.handleChange}
+              onChange={handlePasswordChange}
               type="password"
-              value={formik.values.password}
+              value={password}
               variant="outlined"
             />
+            {passwordError&&<div className='error-masg'>{passwordError}</div>}
             <Grid
               container
               spacing={3}
@@ -155,12 +213,10 @@ const Login = () => {
             <Box sx={{ py: 2 }}>
               <Button
                 color="primary"
-            
                 fullWidth
                 size="large"
                 type="submit"
                 variant="contained"
-                
               >
                 Login 
               </Button>

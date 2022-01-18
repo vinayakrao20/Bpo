@@ -32,7 +32,29 @@ const Register = () => {
       password: '',
       policy: false
     },
-    validationSchema: Yup.object({
+      validationSchema: Yup.object({
+        email: Yup
+          .string()
+          .email(
+            'Must be a valid email')
+          .max(255)
+          .required(
+            'Email is required'),
+        Name: Yup
+          .string()
+          .max(255)
+          .required(
+            'Name is required'),
+        PhoneNumber: Yup
+          .string()
+          .max(10)
+          .required(
+            'Phone Number is required'),
+        password: Yup
+          .string()
+          .max(255)
+          .required(
+            'Password is required'),
       
       policy: Yup
         .boolean()
@@ -111,6 +133,7 @@ const Register = () => {
               name="Name"
               onBlur={formik.handleBlur}
               onChange={(e) => setName(e.target.value)}
+              onInput={formik.handleChange}
               value={name}
               variant="outlined"
             autoComplete='off'  
@@ -125,6 +148,7 @@ const Register = () => {
               name="email"
               onBlur={formik.handleBlur}
               onChange={(e) => setEmail(e.target.value)}
+              onInput={formik.handleChange}
               type="email"
               value={email}
               variant="outlined"
@@ -140,6 +164,7 @@ const Register = () => {
               onBlur={formik.handleBlur}
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
+              onInput={formik.handleChange}
               variant="outlined"
             
             />
@@ -152,6 +177,7 @@ const Register = () => {
               name="password"
               onBlur={formik.handleBlur}
               onChange={(e) => setPassword(e.target.value)}
+              onInput={formik.handleChange}
               type="password"
               value={password}
               variant="outlined"
